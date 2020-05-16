@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "css-mediaquery": "^0.1.2",
+    "formik": "^2.1.4",
     "history": "^4.10.1",
     "mutationobserver-shim": "^0.3.5",
     "prop-types": "^15.7.2",
@@ -18,7 +19,8 @@
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.4",
     "react-scripts": "3.4.1",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "yup": "^0.28.5"
   },
   "scripts": {
     "start": "react-scripts start",

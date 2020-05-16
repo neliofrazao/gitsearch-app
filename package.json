@@ -19,6 +19,17 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test:coverage"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint src --fix"
+    ]
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",

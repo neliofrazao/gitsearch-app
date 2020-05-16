@@ -1,10 +1,10 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import UseRank from './index'
+import UserRank from './index'
 
-describe('UseRank()', () => {
+describe('UserRank()', () => {
   test('should SearchHistory renders', () => {
-    const { getByTestId } = render(<UseRank />)
+    const { getByTestId } = render(<UserRank />)
     const SUT = getByTestId('data-user-rank')
     expect(SUT).toBeDefined()
   })

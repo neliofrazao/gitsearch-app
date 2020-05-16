@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { injectRouter } from '../../helpers/testHelpers'
 import Container from './index'
 
 const BaseRender = () => (
@@ -11,7 +10,7 @@ const BaseRender = () => (
 
 describe('Container()', () => {
   test('should renders children props', () => {
-    const { getByTestId } = render(injectRouter(<BaseRender />))
+    const { getByTestId } = render(<BaseRender />)
     const SUT = getByTestId('data-container').innerHTML
     const expectResult = '<span>Some Link</span>'
 

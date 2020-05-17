@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, Typography } from '@material-ui/core'
-import { Menu, MenuItem } from '../Menu'
+import Menu from '../Menu'
 import { Container } from '../../Shared'
 import Head from './Header.styles'
 import logo from '../../assets/images/github-logo.png'
@@ -15,17 +15,7 @@ const Header = () => (
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Menu>
-            <MenuItem link="/" title="Home">
-              Home
-            </MenuItem>
-            <MenuItem link="/historico-busca" title="Histórico de busca">
-              Histórico de busca
-            </MenuItem>
-            <MenuItem link="/rank" title="Top 5 github">
-              Top 5 github
-            </MenuItem>
-          </Menu>
+          <Menu />
         </Grid>
       </Grid>
     </Container>

@@ -13,8 +13,8 @@ const Layout = ({ children }) => {
       <div data-testid="data-layout">
         <Header />
         <Main>
-          {isLoad && <Loading />}
           {children}
+          {isLoad && <Loading />}
         </Main>
       </div>
       <GlobalStyle />

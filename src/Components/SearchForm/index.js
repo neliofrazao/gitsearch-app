@@ -13,6 +13,7 @@ const SearchForm = ({ initialValues, formSchema, handleSubmit }) => (
           <Grid container spacing={3} direction="row" justify="flex-start" alignItems="center">
             <Grid item xs={10}>
               <InputField
+                data-testid="data-user-search"
                 label="Nome do usuário"
                 name="userName"
                 error={getIn(formikProps.errors, 'userName', '')}

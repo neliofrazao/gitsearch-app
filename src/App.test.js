@@ -2,8 +2,9 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import App from './App'
 
-test('renders app text', () => {
-  const { getByText } = render(<App />)
-  const textElement = getByText(/app/i)
-  expect(textElement).toBeInTheDocument()
+describe('App()', () => {
+  test('should render layout component ', () => {
+    const { getByTestId } = render(<App />)
+    expect(getByTestId('data-layout')).toBeDefined()
+  })
 })

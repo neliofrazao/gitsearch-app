@@ -5,6 +5,12 @@ const getUsers = async (userName) => {
   return data
 }
 
+const getUserRepo = async (userName) => {
+  const { data } = await http.get(`/users/${userName}/repos`)
+  return data
+}
+
 export default {
   getUsers,
+  getUserRepo,
 }

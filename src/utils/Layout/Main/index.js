@@ -15,7 +15,7 @@ const Main = ({ children }) => (
 )
 
 Main.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.object])).isRequired,
+  children: PropTypes.object.isRequired,
 }
 
 export default Main

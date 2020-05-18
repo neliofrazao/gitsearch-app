@@ -1,18 +1,10 @@
 import React, { useContext, useState } from 'react'
-import * as Yup from 'yup'
 import { Typography } from '@material-ui/core'
 import { SearchForm } from '../../Components'
+import { LoadContext, DataGrid } from '../../Shared'
+import { formatRepoListRows, repoGridHeader } from './functions/dataGridSetup'
+import { initialValues, schema } from './functions/formSetup'
 import api from '../../api/users/users'
-import { LoadContext } from '../../Shared'
-
-const REQUIRED_MESSAGE = 'Campo obrigatório'
-const schema = Yup.object().shape({
-  userName: Yup.string().required(REQUIRED_MESSAGE),
-})
-
-const initialValues = {
-  userName: '',
-}
 
 const fetchUserData = async (userName) => {
   const [userData, dataRepos] = await Promise.all([
@@ -28,14 +20,14 @@ const fetchUserData = async (userName) => {
 const SearchUser = () => {
   const { isLoad, setIsLoad } = useContext(LoadContext)
   const [, setUserIfo] = useState([])
-  const [, setRepoInfo] = useState([])
+  const [repoInfo, setRepoInfo] = useState([])
 
   const handleSeachUser = async ({ userName }) => {
     setIsLoad(true)
     try {
       const { userData, dataRepos } = await fetchUserData(userName)
       setUserIfo(userData)
-      setRepoInfo(dataRepos)
+      setRepoInfo(formatRepoListRows(dataRepos))
     } catch (error) {
       setUserIfo([])
       setRepoInfo([])
@@ -55,6 +47,10 @@ const SearchUser = () => {
             formSchema={schema}
             handleSubmit={handleSeachUser}
           />
+          <Typography variant="h5" component="h3" gutterBottom>
+            Lista de repositórios do usuário
+          </Typography>
+          <DataGrid columns={repoGridHeader} rows={repoInfo} />
         </>
       )}
     </div>

@@ -11,7 +11,7 @@ const UserDetail = ({ followers, following, htmlUrl, thumbnailPath, userName, us
       <Hidden smDown>
         <Grid item xs={1}>
           <div className="user-image">
-            <img src={thumbnailPath} alt={userName} />
+            <img src={thumbnailPath} alt={userName} data-testid="data-avatar" />
           </div>
         </Grid>
       </Hidden>

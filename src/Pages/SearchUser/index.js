@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Typography } from '@material-ui/core'
-import { SearchForm } from '../../Components'
+import { SearchForm, UserDetail } from '../../Components'
+
 import { LoadContext, DataGrid } from '../../Shared'
 import { formatRepoListRows, repoGridHeader } from './functions/dataGridSetup'
 import { initialValues, schema } from './functions/formSetup'
@@ -17,9 +18,11 @@ const fetchUserData = async (userName) => {
   }
 }
 
+const hasUserInfo = (obj) => Object.keys(obj).length !== 0
+
 const SearchUser = () => {
   const { isLoad, setIsLoad } = useContext(LoadContext)
-  const [, setUserIfo] = useState([])
+  const [userIfo, setUserIfo] = useState({})
   const [repoInfo, setRepoInfo] = useState([])
 
   const handleSeachUser = async ({ userName }) => {
@@ -47,10 +50,22 @@ const SearchUser = () => {
             formSchema={schema}
             handleSubmit={handleSeachUser}
           />
-          <Typography variant="h5" component="h3" gutterBottom>
-            Lista de repositórios do usuário
-          </Typography>
-          <DataGrid columns={repoGridHeader} rows={repoInfo} />
+          {hasUserInfo(userIfo) && (
+            <>
+              <UserDetail
+                followers={userIfo.followers}
+                following={userIfo.following}
+                userName={userIfo.name}
+                userLocation={userIfo.location}
+                htmlUrl={userIfo.html_url}
+                thumbnailPath={userIfo.avatar_url}
+              />
+              <Typography variant="h5" component="h3" gutterBottom>
+                Lista de repositórios do usuário
+              </Typography>
+              <DataGrid columns={repoGridHeader} rows={repoInfo} />
+            </>
+          )}
         </>
       )}
     </div>

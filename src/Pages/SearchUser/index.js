@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Typography } from '@material-ui/core'
 import { SearchForm, UserDetail } from '../../Components'
-
 import { LoadContext, DataGrid } from '../../Shared'
 import { formatRepoListRows, repoGridHeader } from './functions/dataGridSetup'
 import { initialValues, schema } from './functions/formSetup'
+import useLocalStorage from '../../utils/useLocalStorage'
 import api from '../../api/users/users'
 
 const fetchUserData = async (userName) => {
@@ -17,23 +17,19 @@ const fetchUserData = async (userName) => {
     dataRepos,
   }
 }
-
 const hasUserInfo = (obj) => Object.keys(obj).length !== 0
 
 const SearchUser = () => {
   const { isLoad, setIsLoad } = useContext(LoadContext)
-  const [userIfo, setUserIfo] = useState({})
-  const [repoInfo, setRepoInfo] = useState([])
+  const [storedUser, setUserValue] = useLocalStorage('dataUser', {})
 
   const handleSeachUser = async ({ userName }) => {
     setIsLoad(true)
     try {
       const { userData, dataRepos } = await fetchUserData(userName)
-      setUserIfo(userData)
-      setRepoInfo(formatRepoListRows(dataRepos))
+      setUserValue({ user: userData, repos: formatRepoListRows(dataRepos) })
     } catch (error) {
-      setUserIfo([])
-      setRepoInfo([])
+      setUserValue({})
     }
     setIsLoad(false)
   }
@@ -50,20 +46,20 @@ const SearchUser = () => {
             formSchema={schema}
             handleSubmit={handleSeachUser}
           />
-          {hasUserInfo(userIfo) && (
+          {hasUserInfo(storedUser) && (
             <>
               <UserDetail
-                followers={userIfo.followers}
-                following={userIfo.following}
-                userName={userIfo.name}
-                userLocation={userIfo.location}
-                htmlUrl={userIfo.html_url}
-                thumbnailPath={userIfo.avatar_url}
+                followers={storedUser.user.followers}
+                following={storedUser.user.following}
+                userName={storedUser.user.name}
+                userLocation={storedUser.user.location}
+                htmlUrl={storedUser.user.html_url}
+                thumbnailPath={storedUser.user.avatar_url}
               />
               <Typography variant="h5" component="h3" gutterBottom>
                 Lista de repositórios do usuário
               </Typography>
-              <DataGrid columns={repoGridHeader} rows={repoInfo} />
+              <DataGrid columns={repoGridHeader} rows={storedUser.repos} />
             </>
           )}
         </>

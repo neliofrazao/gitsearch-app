@@ -43,4 +43,16 @@ describe('DataGrid()', () => {
       })
     expect(DataGridHead.children).toHaveLength(2)
   })
+
+  test('should renders DataGridBody with data', () => {
+    const { getByTestId } = render(<DataGrid columns={columns} rows={rows} />)
+    const DataGridBody = getByTestId('data-grid-body-table-row-1')
+    Array.from(DataGridBody.children)
+      .slice(1)
+      .forEach((item, i) => {
+        expect(rows[i].id).toEqual(1)
+        expect(rows[i].name).toEqual('User 1')
+      })
+    expect(DataGridBody.children).toHaveLength(2)
+  })
 })

@@ -63,4 +63,17 @@ describe('SearchUser()', () => {
       expect(api.getUserRepo).toHaveBeenCalledTimes(1)
     })
   })
+
+  test('should receive error', async () => {
+    api.getUsers = jest.fn().mockRejectedValueOnce({})
+    api.getUserRepo = jest.fn().mockRejectedValueOnce({})
+    const { getByTestId } = render(<SearchUser />)
+    const userSearch = getByTestId('data-user-search').querySelector('input')
+    fireEvent.change(userSearch, { target: { value: 'userName' } })
+    fireEvent.click(getByTestId('data-button-search'))
+    await wait(() => {
+      expect(api.getUsers).toHaveBeenCalledTimes(1)
+      expect(api.getUserRepo).toHaveBeenCalledTimes(1)
+    })
+  })
 })

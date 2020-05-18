@@ -6,7 +6,7 @@ import { TextIcon } from '../../Shared'
 import UserContainer from './UserDetail.styles'
 
 const UserDetail = ({ followers, following, htmlUrl, thumbnailPath, userName, userLocation }) => (
-  <UserContainer data-testid="data-Character-detail">
+  <UserContainer data-testid="data-user-detail">
     <Grid container direction="row" justify="flex-start" alignItems="flex-start" spacing={3}>
       <Hidden smDown>
         <Grid item xs={1}>
@@ -33,8 +33,8 @@ const UserDetail = ({ followers, following, htmlUrl, thumbnailPath, userName, us
 )
 
 UserDetail.propTypes = {
-  followers: PropTypes.string.isRequired,
-  following: PropTypes.string.isRequired,
+  followers: PropTypes.number.isRequired,
+  following: PropTypes.number.isRequired,
   htmlUrl: PropTypes.string.isRequired,
   thumbnailPath: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,

@@ -31,4 +31,9 @@ describe('DataGrid()', () => {
     const { container } = render(<DataGrid columns={columns} rows={rows} />)
     expect(container).toBeDefined()
   })
+
+  test('should mounts categories list', () => {
+    const { container } = render(<DataGrid columns={columns} rows={rows} />)
+    expect(container).toBeDefined()
+  })
 })

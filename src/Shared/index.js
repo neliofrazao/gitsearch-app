@@ -1,5 +1,6 @@
 export { default as Container } from './Container'
 export { default as DataGrid } from './DataGrid'
+export { default as EmptySatate } from './EmptySatate'
 export { default as InputField } from './InputField'
 export { default as Loading } from './Loading'
 export { default as LoadContext } from './Loading/store'

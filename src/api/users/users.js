@@ -5,8 +5,8 @@ const getUsers = async (userName) => {
   return data
 }
 
-const getUserRepo = async (userName) => {
-  const { data } = await http.get(`/users/${userName}/repos`)
+const getUserRepo = async (userName, param = {}) => {
+  const { data } = await http.get(`/users/${userName}/repos`, { params: param })
   return data
 }
 

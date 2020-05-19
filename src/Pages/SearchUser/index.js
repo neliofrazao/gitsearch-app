@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Typography } from '@material-ui/core'
+import React, { useContext, useCallback } from 'react'
+import { Typography, Button } from '@material-ui/core'
 import { SearchForm, UserDetail } from '../../Components'
 import { LoadContext, DataGrid } from '../../Shared'
 import { formatRepoListRows, repoGridHeader } from './functions/dataGridSetup'
@@ -8,9 +8,10 @@ import { useLocalStorage, useSearchHistory } from '../../utils/customHook'
 import api from '../../api/users/users'
 
 const fetchUserData = async (userName) => {
+  const params = { direction: 'desc' }
   const [userData, dataRepos] = await Promise.all([
     api.getUsers(userName),
-    api.getUserRepo(userName),
+    api.getUserRepo(userName, params),
   ])
   return {
     userData,
@@ -23,17 +24,32 @@ const SearchUser = () => {
   const [storedUser, setUserValue] = useLocalStorage('dataUser', {})
   const [, setHistoryValue] = useSearchHistory()
 
-  const handleSeachUser = async ({ userName }) => {
+  const handleSeachUser = useCallback(
+    async ({ userName }) => {
+      setIsLoad(true)
+      try {
+        const { userData, dataRepos } = await fetchUserData(userName)
+        setHistoryValue(userData)
+        setUserValue({ user: userData, repos: formatRepoListRows(dataRepos) })
+      } catch (error) {
+        setUserValue({})
+      }
+      setIsLoad(false)
+    },
+    [setHistoryValue, setIsLoad, setUserValue],
+  )
+
+  const handleOrderBy = useCallback(async () => {
     setIsLoad(true)
     try {
-      const { userData, dataRepos } = await fetchUserData(userName)
-      setHistoryValue(userData)
-      setUserValue({ user: userData, repos: formatRepoListRows(dataRepos) })
+      const params = { sort: 'updated' }
+      const data = await api.getUserRepo(storedUser.user.login, params)
+      setUserValue({ user: storedUser.user, repos: formatRepoListRows(data) })
     } catch (error) {
       setUserValue({})
     }
     setIsLoad(false)
-  }
+  }, [setIsLoad, setUserValue, storedUser.user])
 
   return (
     <div data-testid="data-search-user">
@@ -59,6 +75,10 @@ const SearchUser = () => {
               />
               <Typography variant="h5" component="h3" gutterBottom>
                 Lista de repositórios do usuário
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Ordernar por:
+                <Button onClick={() => handleOrderBy()}>Orderdar por última atualização</Button>
               </Typography>
               <DataGrid columns={repoGridHeader} rows={storedUser.repos} />
             </>

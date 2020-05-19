@@ -4,7 +4,7 @@ import { SearchForm, UserDetail } from '../../Components'
 import { LoadContext, DataGrid } from '../../Shared'
 import { formatRepoListRows, repoGridHeader } from './functions/dataGridSetup'
 import { initialValues, schema } from './functions/formSetup'
-import useLocalStorage from '../../utils/useLocalStorage'
+import { useLocalStorage, useSearchHistory } from '../../utils/customHook'
 import api from '../../api/users/users'
 
 const fetchUserData = async (userName) => {
@@ -18,15 +18,16 @@ const fetchUserData = async (userName) => {
   }
 }
 const hasUserInfo = (obj) => Object.keys(obj).length !== 0
-
 const SearchUser = () => {
   const { isLoad, setIsLoad } = useContext(LoadContext)
   const [storedUser, setUserValue] = useLocalStorage('dataUser', {})
+  const [, setHistoryValue] = useSearchHistory()
 
   const handleSeachUser = async ({ userName }) => {
     setIsLoad(true)
     try {
       const { userData, dataRepos } = await fetchUserData(userName)
+      setHistoryValue(userData)
       setUserValue({ user: userData, repos: formatRepoListRows(dataRepos) })
     } catch (error) {
       setUserValue({})

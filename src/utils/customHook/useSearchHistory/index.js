@@ -9,7 +9,7 @@ const useSearchHistory = () => {
       getStoredHistory.unshift(value)
 
       if (getStoredHistory.length >= 5) {
-        const removeHistory = getStoredHistory.filter((card, index) => index !== 5)
+        const removeHistory = getStoredHistory.filter((history, index) => index !== 5)
         setHistory(removeHistory)
       } else {
         setHistory(getStoredHistory)

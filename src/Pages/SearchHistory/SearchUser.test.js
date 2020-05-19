@@ -1,11 +1,12 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, waitForElement } from '@testing-library/react'
 import SearchHistory from './index'
 
 describe('SearchHistory()', () => {
-  test('should SearchHistory renders', () => {
+  test('should SearchHistory renders', async () => {
     const { getByTestId } = render(<SearchHistory />)
-    const SUT = getByTestId('data-search-history')
-    expect(SUT).toBeDefined()
+    await waitForElement(() => getByTestId('data-search-history'))
+
+    expect(getByTestId('data-search-history')).toBeDefined()
   })
 })
